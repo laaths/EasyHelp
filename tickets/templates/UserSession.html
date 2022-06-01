@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+{% block title %}Usuario{% endblock %}
+{% block content %}
+    <br>
+    <br>
+    <br>
+    <div class="container" id="form-ticket">
+    <h1>Olá {{ user.first_name }}</h1>
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Meus Dados
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="text"><strong>Nome Completo: </strong>{{ user.first_name}} Soares {{ user.last_name }}</div>
+                        <div class="text"><strong>E-mail: </strong>{{ user.email }}</div>
+                        <div class="text"><strong>Acesso: </strong>
+                            {% if user.is_staff == True %}
+                                User Staff
+                            {% else %}
+                                User Administrador
+                            {% endif %}
+                        </div>
+                      <div class="text"><strong>Cadastro: </strong>{{ user.date_joined }}</div>
+                        <div class="text"><strong>Ultimo Login: </strong>{{ user.last_login }}</div>
+                        <div class="text"><strong>Lista de Permissões: </strong>
+                            <ul class="list-group">
+                                {% for permission in permissions %}
+                                    <li class="list-group-item">{{ permission }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Chamados Abertos
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        pass
+        </div>
+    </div>
+{% endblock %}
+{% bootstrap_javascript %}
