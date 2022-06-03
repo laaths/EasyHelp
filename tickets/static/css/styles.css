@@ -22,7 +22,6 @@
         padding-left: calc(var(--nav-width) + 188px)}
 }
 
-
 @media screen and (min-width: 700px){
     .accordion-body{
         width: auto;

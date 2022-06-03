@@ -8,12 +8,12 @@
     <br>
     <br>
     <div class="container" id="form-ticket">
+        {% bootstrap_messages %}
         <h1>Abertura de Chamado</h1>
         <form action="{% url 'tickets' %}" method="post" class="form" autocomplete="off" enctype="multipart/form-data">
             {% csrf_token %}
             {% bootstrap_form form %}
             <button type="submit" class="btn btn-primary">Cadastrar</button>
         </form>
-    {% bootstrap_messages %}
     </div>
 {% endblock %}

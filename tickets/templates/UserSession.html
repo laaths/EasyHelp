@@ -9,7 +9,7 @@
     <br>
     <br>
     <div class="container" id="form-ticket">
-    <h1>Olá {{ user.first_name }}</h1>
+    <h1>Olá {{ user.last_name }}</h1>
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
@@ -19,7 +19,7 @@
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                        <div class="text"><strong>Nome Completo: </strong>{{ user.first_name}} Soares {{ user.last_name }}</div>
+                        <div class="text"><strong>Nome Completo: </strong>{{ user.first_name}} {{ user.last_name }}</div>
                         <div class="text"><strong>E-mail: </strong>{{ user.email }}</div>
                         <div class="text"><strong>Acesso: </strong>
                             {% if user.is_staff == True %}
@@ -48,7 +48,15 @@
                 </h2>
                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                        pass
+                        {% for foo in modelsbd %}
+                            <div>Chamado: {{ foo.id }}</div>
+                            <div>{{ foo.nome }}</div>
+                            <div>{{ foo.email }}</div>
+                            <div>{{ foo.titulo }}</div>
+                            <div>{{ foo.dsticket }}</div>
+                            <br>
+                        {% endfor %}
+
         </div>
     </div>
 {% endblock %}
