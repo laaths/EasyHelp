@@ -23,7 +23,9 @@
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
     <option name="TEMPLATE_FOLDERS">
       <list>
-        <option value="$MODULE_DIR$/../EasyHelp\templates" />
+        <option value="$MODULE_DIR$/registration/templates" />
+        <option value="$MODULE_DIR$/templates" />
+        <option value="$MODULE_DIR$/tickets/templates" />
       </list>
     </option>
   </component>
