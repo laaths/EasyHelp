@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .forms import OpenTicketForm
 from .models import OpenTicketModel
+from registration.views import loginUsers
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
@@ -29,11 +30,14 @@ def ticket(request):
     )
 
 def UserSession(request):
-
-    context = {
-        'request': request,
-        'user': User.objects.get(username=request.user),
-        'permissions': User.objects.get(username=request.user).get_user_permissions,
-        'modelsbd': OpenTicketModel.objects.all(),
-    }
-    return render(request, 'UserSession.html', context)
+    if User.DoesNotExist or User.is_authenticated:
+        context = {
+            'request': request,
+            'user': User.objects.get(username=request.user),
+            'permissions': User.objects.get(username=request.user).get_user_permissions,
+            'modelsbd': OpenTicketModel.objects.all(),
+        }
+        return render(request, 'UserSession.html', context)
+    else:
+        messages.error(request, 'Efetuar Login Para Continuar!')
+        return redirect('auth')
