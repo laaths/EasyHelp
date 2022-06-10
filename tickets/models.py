@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class OpenTicketModel(models.Model):
     nome = models.CharField('nome', max_length=50)
@@ -10,3 +11,12 @@ class OpenTicketModel(models.Model):
 
     def __str__(self):
         return self.nome
+
+class ticketsForUsers(models.Model):
+    idTicket = models.ForeignKey(OpenTicketModel, related_name='idticket', on_delete=models.CASCADE)
+    #idTicket = models.ForeignKey(User, auto_created=True, unique=True, on_delete=models.CASCADE)
+    idUser = models.ForeignKey(User, models.CASCADE, related_name='iduser',)
+
+    def __str__(self):
+        return self.id
+

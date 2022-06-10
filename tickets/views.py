@@ -30,7 +30,7 @@ def ticket(request):
     )
 
 def UserSession(request):
-    if User.DoesNotExist or User.is_authenticated:
+    if request.user.is_authenticated:
         context = {
             'request': request,
             'user': User.objects.get(username=request.user),
