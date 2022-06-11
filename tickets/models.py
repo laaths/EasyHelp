@@ -13,9 +13,9 @@ class OpenTicketModel(models.Model):
         return self.nome
 
 class ticketsForUsers(models.Model):
-    idTicket = models.ForeignKey(OpenTicketModel, related_name='idticket', on_delete=models.CASCADE)
-    #idTicket = models.ForeignKey(User, auto_created=True, unique=True, on_delete=models.CASCADE)
-    idUser = models.ForeignKey(User, models.CASCADE, related_name='iduser',)
+    idTicket = models.IntegerField('idticket')
+    idUser = models.IntegerField('iduser')
+    idGroup = models.IntegerField('idgroup')
 
     def __str__(self):
         return self.id

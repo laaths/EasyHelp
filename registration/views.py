@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import logout, login, authenticate
-from .forms import loginUsers
+from .forms import loginUsers, CadastroUsuarios
 
 def authLogin(request):
     form = loginUsers(request.POST or None)
@@ -23,7 +23,6 @@ def authLogin(request):
         # Retorna uma mensagem de erro 'login inválido'.
         return render(request, 'authLogin.html', {'form': form})
     except KeyError:
-        print('try: teste')
         return render(request, 'authLogin.html', {'form': form})
 
 def authLogout(request):
@@ -31,7 +30,8 @@ def authLogout(request):
     return redirect(authLogin)
 
 def cadastroUsuarios(request):
-    return render(request, 'cadastroUsuarios.html')
+    form = CadastroUsuarios(request.POST or None)
+    return render(request, 'cadastroUsuarios.html', {'form': form})
 
 def userPermiss(request):
     return render(request, 'userPermiss.html')

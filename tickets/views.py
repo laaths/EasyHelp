@@ -31,10 +31,16 @@ def ticket(request):
 
 def UserSession(request):
     if request.user.is_authenticated:
+        permissions = User.objects.get(username=request.user).user_permissions.values_list('name')
+        if len(permissions) is 0:
+            permissions = 'Null'
+        else:
+            pass
         context = {
             'request': request,
             'user': User.objects.get(username=request.user),
-            'permissions': User.objects.get(username=request.user).get_user_permissions,
+            'permissions': permissions,
+            'groupsperm': User.objects.get(username=request.user).groups.values_list('name'),
             'modelsbd': OpenTicketModel.objects.all(),
         }
         return render(request, 'UserSession.html', context)

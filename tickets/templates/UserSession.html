@@ -19,24 +19,39 @@
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                        <div class="text"><strong>Nome Completo: </strong>{{ user.first_name}} {{ user.last_name }}</div>
+                        <div class="text"><strong>Nome: </strong>{{ user.first_name}} {{ user.last_name }}</div>
+                        <div class="text"><strong>Username: </strong>{{ user.username}}</div>
                         <div class="text"><strong>E-mail: </strong>{{ user.email }}</div>
-                        <div class="text"><strong>Acesso: </strong>
+                        <div class="text"><strong>Cadastro: </strong>{{ user.date_joined }}</div>
+                        <div class="text"><strong>Ultimo Login: </strong>{{ user.last_login }}</div>
+                        <div class="text">
                             {% if user.is_staff == True %}
-                                User Staff
+                                <strong>Acesso: </strong> User Staff
+                            {% elif user.is_superuser %}
+                                <strong>Acesso: </strong> User Administrador
+                            {% elif user.is_active %}
+                                <strong>Grupos de Acesso: </strong>
+                                {% for foo in groupsperm %}
+                                    {% for grp in foo %}
+                                        {{ grp }},
+                                    {% endfor %}
+
+                                {% endfor %}
                             {% else %}
-                                User Administrador
+                                Solicitante
                             {% endif %}
                         </div>
-                      <div class="text"><strong>Cadastro: </strong>{{ user.date_joined }}</div>
-                        <div class="text"><strong>Ultimo Login: </strong>{{ user.last_login }}</div>
-                        <div class="text"><strong>Lista de Permissões: </strong>
-                            <ul class="list-group">
-                                {% for permission in permissions %}
-                                    <li class="list-group-item">{{ permission }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
+                        {% if permissions != 'Null' %}
+                            <div class="text"><strong>Lista de Permissões: </strong>
+                                <ul class="list-group">
+                                    {% for permission in permissions %}
+                                        {% for unid in permission%}
+                                            <li class="list-group-item">{{ unid }}</li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -56,7 +71,6 @@
                             <div>{{ foo.dsticket }}</div>
                             <br>
                         {% endfor %}
-
         </div>
     </div>
 {% endblock %}

@@ -1,10 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
 
-</body>
-</html>
+{% block title %}Login{% endblock %}
+{% block content %}
+    <br>
+    <br>
+    <br>
+    <div class="container" id="form-ticket">
+        {% bootstrap_messages %}
+        <h1>Login</h1>
+        <form action="{% url 'userpermiss' %}" method="post" class="form" autocomplete="on" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+    </div>
+{% endblock %}
