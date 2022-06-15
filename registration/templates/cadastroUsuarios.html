@@ -3,13 +3,14 @@
 {% load static %}
 
 {% block title %}Cadastro de Usuarios{% endblock %}
+{% block caduser %}active{% endblock %}
 {% block content %}
     <br>
     <br>
     <br>
     <div class="container" id="form-ticket">
         {% bootstrap_messages %}
-        <h1>Login</h1>
+        <h1>Cadastro de Usuarios</h1>
         <form action="{% url 'caduser' %}" method="post" class="form-control" autocomplete="on" enctype="multipart/form-data">
             {% csrf_token %}
             {% bootstrap_form form %}

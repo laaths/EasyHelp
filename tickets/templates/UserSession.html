@@ -2,8 +2,8 @@
 {% load django_bootstrap5 %}
 {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-
 {% block title %}Usuario{% endblock %}
+{% block user %}active{% endblock %}
 {% block content %}
     <br>
     <br>
@@ -30,28 +30,25 @@
                             {% elif user.is_superuser %}
                                 <strong>Acesso: </strong> User Administrador
                             {% elif user.is_active %}
-                                <strong>Grupos de Acesso: </strong>
-                                {% for foo in groupsperm %}
-                                    {% for grp in foo %}
-                                        {{ grp }},
+                                {% if permissions != 'Null' %}
+                                    <strong>Lista de Permissões: </strong>
+                                    <ul class="list-group">
+                                    {% for unid in permissions %}
+                                        <li class="list-group-item">{{ unid }}</li>
                                     {% endfor %}
-
-                                {% endfor %}
-                            {% else %}
-                                Solicitante
-                            {% endif %}
-                        </div>
-                        {% if permissions != 'Null' %}
-                            <div class="text"><strong>Lista de Permissões: </strong>
-                                <ul class="list-group">
-                                    {% for permission in permissions %}
-                                        {% for unid in permission%}
-                                            <li class="list-group-item">{{ unid }}</li>
+                                    </ul>
+                                {% else %}
+                                    <strong>Grupos de Acesso: </strong>
+                                    <ul class="list-group">
+                                    {% for foo in groupsperm %}
+                                        {% for grp in foo %}
+                                            <li class="list-group-item">{{ grp }}</li>
                                         {% endfor %}
                                     {% endfor %}
-                                </ul>
-                            </div>
-                        {% endif %}
+                                    </ul>
+                                {% endif %}
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>

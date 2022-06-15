@@ -4,7 +4,7 @@ from .models import OpenTicketModel
 from registration.views import loginUsers
 from django.contrib import messages
 from django.shortcuts import redirect
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 
 def baseView(request):
@@ -31,7 +31,8 @@ def ticket(request):
 
 def UserSession(request):
     if request.user.is_authenticated:
-        permissions = User.objects.get(username=request.user).user_permissions.values_list('name')
+        #permissions = User.objects.get(username=request.user).user_permissions.values_list('name')
+        permissions = request.user.get_user_permissions()
         if len(permissions) is 0:
             permissions = 'Null'
         else:
