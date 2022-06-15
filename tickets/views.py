@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .forms import OpenTicketForm
-from .models import OpenTicketModel
+from .models import OpenTicketModel, ticketsForUsers
 from registration.views import loginUsers
 from django.contrib import messages
 from django.shortcuts import redirect
@@ -11,23 +11,33 @@ def baseView(request):
     return render(request, 'base.html')
 
 def ticket(request):
-    if request.POST:
-        form = OpenTicketForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Deus Abençoe!')
-            form = OpenTicketForm()
-        else:
-            messages.success(request, 'Erro na Abertura do Chamado!')
-    else:
-        form = OpenTicketForm()
+    def TabelaRelacional():
+        tableRelac = ticketsForUsers.objects.all()
+        tableticket = OpenTicketModel.objects.get(dsticket=request.POST('dsticket'))
+        tableRelac.create(idGroup=Group.objects.get(name='CA - Central de Atendimento').id, idUser=request.user.id, idTicket=tableticket('id'))
 
-    return render(
-        request, 'openTicket.html',
-        {
-            'form': form,
-        }
-    )
+    if request.user.is_authenticated:
+        if request.POST:
+            form = OpenTicketForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Deus Abençoe!')
+                OpenTicketModel.objects.get(dsticket=request.POST('dsticket'))
+                #TabelaRelacional()
+                form = OpenTicketForm()
+            else:
+                messages.success(request, 'Erro na Abertura do Chamado!')
+        else:
+            form = OpenTicketForm()
+        return render(
+            request, 'openTicket.html',
+            {
+                'form': form,
+            }
+        )
+    else:
+        messages.error(request, 'Usuario não Autenticado!')
+        return redirect('auth')
 
 def UserSession(request):
     if request.user.is_authenticated:

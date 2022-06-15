@@ -13,7 +13,7 @@ class OpenTicketModel(models.Model):
         return self.nome
 
 class ticketsForUsers(models.Model):
-    idTicket = models.IntegerField('idticket')
+    idTicket = models.IntegerField('idticket', unique=True)
     idUser = models.IntegerField('iduser')
     idGroup = models.IntegerField('idgroup')
 

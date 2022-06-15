@@ -9,7 +9,11 @@
     <br>
     <br>
     <div class="container" id="form-ticket">
-    <h1>Olá {{ user.last_name }}</h1>
+    {% if user.first_name != None %}
+        <h1>Olá {{ user.first_name }}</h1>
+    {% else %}
+        <h1>Olá {{ user.username }}</h1>
+    {% endif %}
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
@@ -63,9 +67,9 @@
                         {% for foo in modelsbd %}
                             <div>Chamado: {{ foo.id }}</div>
                             <div>{{ foo.nome }}</div>
-                            <div>{{ foo.email }}</div>
+                            <div>{{ foo.setor }}</div>
                             <div>{{ foo.titulo }}</div>
-                            <div>{{ foo.dsticket }}</div>
+                            <div>{{ foo.tel_ramal }}</div>
                             <br>
                         {% endfor %}
         </div>

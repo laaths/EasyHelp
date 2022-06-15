@@ -62,7 +62,7 @@ def cadastroUsuarios(request):
             form = CadastroUsuarios()
         return render(request, 'cadastroUsuarios.html', {'form': form})
     else:
-        messages.error(request, 'Usuario não permitido!')
+        messages.error(request, 'Usuario não Autenticado!')
         return redirect('auth')
 
 def userPermiss(request):
