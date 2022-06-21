@@ -20,3 +20,12 @@ class ticketsForUsers(models.Model):
     def __str__(self):
         return self.id
 
+class historiesForTickets(models.Model):
+    idTicket = models.IntegerField('idticket')
+    dstkhistories = models.CharField('dsticket')
+
+    def __str__(self):
+        return self.id
+
+class TeamsForTicketsusers(models.Model):
+    TeamName = models.CharField('nome', max_length=50)

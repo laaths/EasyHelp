@@ -14,7 +14,7 @@ def ticket(request):
     def TabelaRelacional():
         tableRelac = ticketsForUsers.objects.all()
         tableticket = OpenTicketModel.objects.get(dsticket=request.POST('dsticket'))
-        tableRelac.create(idGroup=Group.objects.get(name='CA - Central de Atendimento').id, idUser=request.user.id, idTicket=tableticket('id'))
+        tableRelac.create(idGroup=0, idUser=request.user.id, idTicket=tableticket('id'))
 
     if request.user.is_authenticated:
         if request.POST:
@@ -43,7 +43,7 @@ def UserSession(request):
     if request.user.is_authenticated:
         #permissions = User.objects.get(username=request.user).user_permissions.values_list('name')
         permissions = request.user.get_user_permissions()
-        if len(permissions) is 0:
+        if len(permissions) == 0:
             permissions = 'Null'
         else:
             pass
