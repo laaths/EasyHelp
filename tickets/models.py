@@ -8,6 +8,7 @@ class OpenTicketModel(models.Model):
     tel_ramal = models.CharField('contato', max_length=50)
     titulo = models.CharField('titulo', max_length=100)
     dsticket = models.CharField('dschamado', max_length=1500)
+    createDate = models.DateTimeField('createdate', auto_created=True)
 
     def __str__(self):
         return self.nome
@@ -22,7 +23,8 @@ class ticketsForUsers(models.Model):
 
 class historiesForTickets(models.Model):
     idTicket = models.IntegerField('idticket')
-    dstkhistories = models.CharField('dsticket')
+    dstkHistories = models.CharField('dsticket', max_length=1500)
+    dateHistories = models.DateTimeField('date', auto_created=True)
 
     def __str__(self):
         return self.id
