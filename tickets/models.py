@@ -1,5 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
+
+def get_now():
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 class OpenTicketModel(models.Model):
     nome = models.CharField('nome', max_length=50)
@@ -8,7 +12,7 @@ class OpenTicketModel(models.Model):
     tel_ramal = models.CharField('contato', max_length=50)
     titulo = models.CharField('titulo', max_length=100)
     dsticket = models.CharField('dschamado', max_length=1500)
-    createDate = models.DateTimeField('createdate', auto_created=True)
+    createDate = models.DateTimeField('createdate', default=get_now())
 
     def __str__(self):
         return self.nome

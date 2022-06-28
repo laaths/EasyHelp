@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block title %}Abertura de Ticket{% endblock %}
+{% block tickets %}active{% endblock %}
+{% block content %}
+    <br>
+    <br>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-1" style="font-style: normal">ID</div>
+            <div class="col-2" style="font-style: normal"></div>
+            <div class="col-3" style="font-style: normal">{{ tickets.tel_ramal }}</div>
+            <div class="col" style="font-style: normal">{{ tickets.dsticket }}</div>
+        </div>
+        {% for tickets in tickets_list %}
+            <div class="row">
+                <div class="col-1"><a href="{% url 'ticket' tickets.id %}">{{ tickets.id }}</a></div>
+                <div class="col-2">{{ tickets.nome }}</div>
+                <div class="col-3">{{ tickets.tel_ramal }}</div>
+                <div class="col">{{ tickets.dsticket }}</div>
+            </div>
+        {% endfor %}
+    </div>
+
+    </div>
+{% endblock %}

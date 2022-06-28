@@ -8,7 +8,11 @@ from django.contrib.auth.models import User, Group
 
 
 def baseView(request):
-    return render(request, 'base.html')
+    tickets_list = OpenTicketModel.objects.all()
+    context_index = {
+        'tickets_list': tickets_list,
+    }
+    return render(request, 'index.html', context_index)
 
 def ticket(request):
     def TabelaRelacional():
@@ -36,8 +40,16 @@ def ticket(request):
             }
         )
     else:
-        messages.error(request, 'Usuario não Autenticado!')
+        messages.error(request, 'Efetuar Login Para Continuar!')
         return redirect('auth')
+
+def ticketPage(request, id):
+    print(f'pk: {id}')
+    ticket = OpenTicketModel.objects.get(id=id)
+    context = {
+        'ticket': ticket,
+    }
+    return render(request, 'ticketPage.html', context)
 
 def UserSession(request):
     if request.user.is_authenticated:

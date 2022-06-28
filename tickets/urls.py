@@ -6,4 +6,5 @@ urlpatterns = [
     path('', baseView, name='index'),
     path('ticket', ticket, name='tickets'),
     path('user', UserSession, name='user'),
+    path('ticket/<int:id>', ticket, name='ticket'),
 ]
