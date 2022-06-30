@@ -17,8 +17,8 @@ def baseView(request):
 def ticket(request):
     def TabelaRelacional():
         tableRelac = ticketsForUsers.objects.all()
-        tableticket = OpenTicketModel.objects.get(dsticket=request.POST('dsticket'))
-        tableRelac.create(idGroup=0, idUser=request.user.id, idTicket=tableticket('id'))
+        tableticket = OpenTicketModel.objects.last()
+        tableRelac.create(idGroup=0, idUser=request.user.id, idTicket=tableticket)
 
     if request.user.is_authenticated:
         if request.POST:
@@ -26,8 +26,7 @@ def ticket(request):
             if form.is_valid():
                 form.save()
                 messages.success(request, 'Deus Abençoe!')
-                OpenTicketModel.objects.get(dsticket=request.POST('dsticket'))
-                #TabelaRelacional()
+                TabelaRelacional()
                 form = OpenTicketForm()
             else:
                 messages.success(request, 'Erro na Abertura do Chamado!')

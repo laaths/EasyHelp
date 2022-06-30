@@ -8,20 +8,21 @@
     <br>
     <br>
     <br>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-1" style="font-style: normal">ID</div>
-            <div class="col-2" style="font-style: normal"></div>
-            <div class="col-3" style="font-style: normal">{{ tickets.tel_ramal }}</div>
-            <div class="col" style="font-style: normal">{{ tickets.dsticket }}</div>
+            <div class="col" style="font-style: normal">ID</div>
+            <div class="col" style="font-style: normal">NOME</div>
+            <div class="col" style="font-style: normal">DATA</div>
+            <div class="col" style="font-style: normal">TELEFONE</div>
+            <div class="col" style="font-style: normal">DESCRIÇÃO</div>
         </div>
         {% for tickets in tickets_list %}
             <div class="row">
-                <div class="col-1"><a href="{% url 'ticket' tickets.id %}">{{ tickets.id }}</a></div>
-                <div class="col-2">{{ tickets.nome }}</div>
-                <div class="col-3">{{ tickets.tel_ramal }}</div>
-                <div class="col">{{ tickets.dsticket }}</div>
-            </div>
+                <div class="col-sm"><a href="{% url 'ticket' tickets.id_ticket %}">{{ tickets.id_ticket }}</a></div>
+                <div class="col-sm">{{ tickets.nome }}</div>
+                <div class="col-sm">{{ tickets.createDate.date.isoformat}}</div>
+                <div class="col-sm">{{ tickets.tel_ramal }}</div>
+                <div class="col-sm">{{ tickets.dsticket }}</div>
         {% endfor %}
     </div>
 
