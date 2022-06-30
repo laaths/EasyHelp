@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .forms import OpenTicketForm
-from .models import OpenTicketModel, ticketsForUsers
+from .forms import OpenTicketForm, historiesForTicketsForm
+from .models import OpenTicketModel, ticketsForUsers, historiesForTickets
 from registration.views import loginUsers
 from django.contrib import messages
 from django.shortcuts import redirect
@@ -18,15 +18,15 @@ def ticket(request):
     def TabelaRelacional():
         tableRelac = ticketsForUsers.objects.all()
         tableticket = OpenTicketModel.objects.last()
-        tableRelac.create(idGroup=0, idUser=request.user.id, idTicket=tableticket)
+        #tableRelac.create(idGroup=0, idUser=request.user.id, idTicket=tableticket)
 
     if request.user.is_authenticated:
         if request.POST:
-            form = OpenTicketForm(request.POST, request.FILES)
+            form = OpenTicketForm(request.POST)
             if form.is_valid():
                 form.save()
                 messages.success(request, 'Deus Abençoe!')
-                TabelaRelacional()
+                #TabelaRelacional()
                 form = OpenTicketForm()
             else:
                 messages.success(request, 'Erro na Abertura do Chamado!')
@@ -42,13 +42,38 @@ def ticket(request):
         messages.error(request, 'Efetuar Login Para Continuar!')
         return redirect('auth')
 
-def ticketPage(request, id):
-    print(f'pk: {id}')
-    ticket = OpenTicketModel.objects.get(id=id)
-    context = {
-        'ticket': ticket,
-    }
-    return render(request, 'ticketPage.html', context)
+def ticketPage(request, id_ticket):
+    def TabelaRelacional():
+        tableRelac = historiesForTickets.objects.all()
+        tableRelac.create(idTicket=id_ticket, idUser=request.user.id, dstkHistories=request.POST['dstkHistories'])
+
+    if request.user.is_authenticated:
+        if request.POST:
+            form = historiesForTicketsForm(request.POST)
+            if form.is_valid():
+                messages.success(request, 'Deus Abençoe!')
+                TabelaRelacional()
+                form = historiesForTicketsForm()
+            else:
+                pass
+        else:
+            form = historiesForTicketsForm()
+        tablehistor = historiesForTickets.objects.filter(idTicket=id_ticket)
+        tableUser= User.objects.filter().order_by('id')
+        context = {
+            'ticketObj': OpenTicketModel.objects.get(id_ticket=id_ticket),
+            'form': form,
+            'registroticket': RegistroTicket(request),
+            'tablehistor': tablehistor,
+            'tableuser': tableUser,
+        }
+        return render(request, 'ticketPage.html', context)
+    else:
+        messages.error(request, 'Efetuar Login Para Continuar!')
+        return redirect('auth')
+
+def RegistroTicket(request):
+    pass
 
 def UserSession(request):
     if request.user.is_authenticated:

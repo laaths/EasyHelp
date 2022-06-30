@@ -8,5 +8,110 @@
     <br>
     <br>
     <br>
-        {{ ticket.pk }} {{ ticket.nome }}
+    <div class="container">
+        <p class="fs-2 fw-bolt">
+            Ticket de Atendimento
+        </p>
+        <div class="row row-cols-4">
+            <div class="col fs-6 fw-bolder">
+                Atendimento:
+            </div>
+            <div class="col">
+                {{ ticketObj.pk }}
+            </div>
+            <div class="col fs-6 fw-bolder">
+                Solicitante:
+            </div>
+            <div class="col">
+                {{ ticketObj.nome }}
+            </div>
+            <div class="col fs-6 fw-bolder">
+                Data de Abertura:
+            </div>
+            <div class="col">
+                {{ ticketObj.createDate.date.isoformat.title }}
+            </div>
+            <div class="col fs-6 fw-bolder">
+                Local/Setor:
+            </div>
+            <div class="col">
+                {{ ticketObj.setor }}
+            </div>
+            <div class="col fs-6 fw-bolder">
+                Telefone/Ramal:
+            </div>
+            <div class="col">
+                {{ ticketObj.tel_ramal }}
+            </div>
+            <div class="col fs-6 fw-bolder">
+                Assunto/Titulo:
+            </div>
+            <div class="col">
+                {{ ticketObj.titulo }}
+            </div>
+            <div class="col fs-6 fw-bolder">
+                Situação:
+            </div>
+            <div class="col">
+                {% if ticketObj.status != 1 %}
+                Aguardando Atendimento
+                {% else %}
+                Encerrado
+                {% endif %}
+            </div>
+            <div class="col fs-6 fw-bolder">
+                E-mail:
+            </div>
+            <div class="col">
+                {{ ticketObj.email }}
+            </div>
+            <div class="col fs-6 fw-bolder">
+                Descrição:
+            </div>
+            <div class="col col-lg-8">
+                {{ ticketObj.dsticket }}
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <p class="fs-2 fw-bolt">
+            Iniciar Atendimento
+        </p>
+        {% bootstrap_messages %}
+        <form action="{% url 'ticket' ticketObj.id_ticket %}" method="post" class="form-control" autocomplete="off" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+        </form>
+    </div>
+    <div class="container">
+        <p class="fs-2 fw-bolt">
+            Histórico de Atendimento
+        </p>
+        <div class="row row-cols-3">
+            <div class="col fs-5 fw-bolder">
+                Descrição
+            </div>
+            <div class="col-3 fs-5 fw-bolder">
+                Data de Regitro
+            </div>
+            <div class="col-2 fs-5 fw-bolder">
+                Atendente
+            </div>
+            {% for hist in tablehistor %}
+                <div class="col">
+                    {{ hist.dstkHistories }}
+                </div>
+                <div class="col-3">
+                    {{ hist.dateHistories }}
+                </div>
+                <div class="col-2">
+                    {% for user in tableuser %}
+                        {% if user.id == hist.idUser %}
+                            {{ user.first_name }} {{ user.last_name }}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
 {% endblock %}

@@ -32,7 +32,6 @@ def authLogin(request):
     else:
         return redirect('index')
 
-
 def authLogout(request):
     logout(request)
     return redirect(authLogin)

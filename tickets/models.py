@@ -14,23 +14,24 @@ class OpenTicketModel(models.Model):
     createDate = models.DateTimeField('createdate', default=timezone.now)
     status = models.FloatField(default=False)
 
-    def __int__(self):
-        return self.id_ticket
+    def __str__(self):
+        return str(self.id_ticket)
 
 class ticketsForUsers(models.Model):
     idTicket = models.IntegerField('idticket', unique=True)
     idUser = models.IntegerField('iduser')
     idGroup = models.IntegerField('idgroup')
 
-    def __str__(self):
+    def __int__(self):
         return self.id
 
 class historiesForTickets(models.Model):
     idTicket = models.IntegerField('idticket')
+    idUser = models.IntegerField('iduserresponsavel')
     dstkHistories = models.CharField('dsticket', max_length=1500)
-    dateHistories = models.DateTimeField('date', auto_created=True)
+    dateHistories = models.DateTimeField('date', default=timezone.now)
 
-    def __str__(self):
+    def __int__(self):
         return self.id
 
 class TeamsForTicketsusers(models.Model):

@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 from django import forms
 from django.core.mail.message import EmailMessage
-from .models import OpenTicketModel
+from .models import OpenTicketModel, historiesForTickets
 from datetime import datetime
 
 class OpenTicketForm(ModelForm):
@@ -17,5 +17,12 @@ class OpenTicketForm(ModelForm):
         model = OpenTicketModel
         fields = ['nome', 'email', 'setor', 'tel_ramal', 'titulo', 'dsticket']
 
-class MetaModelTicket(forms.ModelForm):
-    pass
+class historiesForTicketsForm(ModelForm):
+    dstkHistories = forms.CharField(label='Descrição', required=True, max_length=1500, widget=forms.Textarea)
+    encerrar = forms.CharField(label='Encerrar', required=False, widget=forms.CheckboxInput)
+
+    class Meta:
+        model = historiesForTickets
+        fields = [
+            'dstkHistories'
+        ]

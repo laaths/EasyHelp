@@ -8,23 +8,36 @@
     <br>
     <br>
     <br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col" style="font-style: normal">ID</div>
-            <div class="col" style="font-style: normal">NOME</div>
-            <div class="col" style="font-style: normal">DATA</div>
-            <div class="col" style="font-style: normal">TELEFONE</div>
-            <div class="col" style="font-style: normal">DESCRIÇÃO</div>
+    <div class="container">
+        <div class="row row-cols-5">
+            <div class="col-1 fs-5 fw-bolder">ID</div>
+            <div class="col fs-5 fw-bolder">Solicitante</div>
+            <div class="col-1 fs-5 fw-bolder" >Abertura</div>
+            <div class="col-3 fs-5 fw-bolder">Situação</div>
+            <div class="col fs-5 fw-bolder">Descrição</div>
         </div>
         {% for tickets in tickets_list %}
-            <div class="row">
-                <div class="col-sm"><a href="{% url 'ticket' tickets.id_ticket %}">{{ tickets.id_ticket }}</a></div>
-                <div class="col-sm">{{ tickets.nome }}</div>
-                <div class="col-sm">{{ tickets.createDate.date.isoformat}}</div>
-                <div class="col-sm">{{ tickets.tel_ramal }}</div>
-                <div class="col-sm">{{ tickets.dsticket }}</div>
+        <div class="row row-cols-5">
+            <div class="col-1">
+                <a href="{% url 'ticket' tickets.id_ticket %}">{{ tickets.id_ticket }}</a>
+            </div>
+            <div class="col">
+                {{ tickets.nome }}
+            </div>
+            <div class="col-1 d-flex justify-content-center">
+                {{ tickets.createDate.date.day }}/{{ tickets.createDate.date.month }}/{{ tickets.createDate.date.year }}
+            </div>
+            <div class="col-3">
+                {% if ticket.status != 1 %}
+                    Aguardando Atendimento
+                {% else %}
+                    Encerrado
+                {% endif %}
+            </div>
+            <div class="col col-lg-4">
+                {{ tickets.dsticket }}
+            </div>
+        </div>
         {% endfor %}
-    </div>
-
     </div>
 {% endblock %}
