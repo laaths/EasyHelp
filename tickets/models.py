@@ -13,6 +13,7 @@ class OpenTicketModel(models.Model):
     dsticket = models.CharField('dschamado', max_length=1500)
     createDate = models.DateTimeField('createdate', default=timezone.now)
     status = models.FloatField(default=False)
+    closeDate = models.DateTimeField('closeDate', default=timezone.now)
 
     def __str__(self):
         return str(self.id_ticket)
@@ -27,7 +28,7 @@ class ticketsForUsers(models.Model):
 
 class historiesForTickets(models.Model):
     idTicket = models.IntegerField('idticket')
-    idUser = models.IntegerField('iduserresponsavel')
+    idUser = models.IntegerField('iduserresponsavel', default=False)
     dstkHistories = models.CharField('dsticket', max_length=1500)
     dateHistories = models.DateTimeField('date', default=timezone.now)
 

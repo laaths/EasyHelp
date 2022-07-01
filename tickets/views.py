@@ -1,18 +1,26 @@
 from django.shortcuts import render
-from .forms import OpenTicketForm, historiesForTicketsForm
+from .forms import OpenTicketForm, historiesForTicketsForm, PesquisaTicket
 from .models import OpenTicketModel, ticketsForUsers, historiesForTickets
 from registration.views import loginUsers
+from django.views.generic import TemplateView
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.contrib.auth.models import User, Group
-
+from django.utils import timezone
+from django.http import HttpResponseRedirect
 
 def baseView(request):
-    tickets_list = OpenTicketModel.objects.all()
-    context_index = {
-        'tickets_list': tickets_list,
-    }
-    return render(request, 'index.html', context_index)
+    if request.user.is_authenticated:
+        tickets_list_ab = OpenTicketModel.objects.filter(status=0)
+        tickets_list_en = OpenTicketModel.objects.filter(status=1)
+        context_index = {
+            'tickets_list': tickets_list_ab,
+            'tickets_list_en': tickets_list_en,
+        }
+        return render(request, 'index.html', context_index)
+    else:
+        messages.error(request, 'Efetuar Login Para Continuar!')
+        return redirect('auth')
 
 def ticket(request):
     def TabelaRelacional():
@@ -46,6 +54,19 @@ def ticketPage(request, id_ticket):
     def TabelaRelacional():
         tableRelac = historiesForTickets.objects.all()
         tableRelac.create(idTicket=id_ticket, idUser=request.user.id, dstkHistories=request.POST['dstkHistories'])
+        print(request.POST)
+
+    def encerrarTicket():
+        try:
+            ticket = OpenTicketModel.objects.get(id_ticket=id_ticket)
+            if request.POST['encerrar']:
+                ticket.status = '1'
+                ticket.closeDate = timezone.now()
+                ticket.save()
+            else:
+                pass
+        except KeyError:
+            pass
 
     if request.user.is_authenticated:
         if request.POST:
@@ -53,9 +74,11 @@ def ticketPage(request, id_ticket):
             if form.is_valid():
                 messages.success(request, 'Deus Abençoe!')
                 TabelaRelacional()
+                encerrarTicket()
                 form = historiesForTicketsForm()
+                return redirect('index')
             else:
-                pass
+                form = historiesForTicketsForm()
         else:
             form = historiesForTicketsForm()
         tablehistor = historiesForTickets.objects.filter(idTicket=id_ticket)
@@ -63,7 +86,6 @@ def ticketPage(request, id_ticket):
         context = {
             'ticketObj': OpenTicketModel.objects.get(id_ticket=id_ticket),
             'form': form,
-            'registroticket': RegistroTicket(request),
             'tablehistor': tablehistor,
             'tableuser': tableUser,
         }
@@ -72,8 +94,10 @@ def ticketPage(request, id_ticket):
         messages.error(request, 'Efetuar Login Para Continuar!')
         return redirect('auth')
 
-def RegistroTicket(request):
-    pass
+def searchTicket(id_ticket):
+    tablehistor = historiesForTickets.objects.filter(idTicket=id_ticket)
+    return redirect('ticket', id_ticket)
+
 
 def UserSession(request):
     if request.user.is_authenticated:
@@ -88,7 +112,7 @@ def UserSession(request):
             'user': User.objects.get(username=request.user),
             'permissions': permissions,
             'groupsperm': User.objects.get(username=request.user).groups.values_list('name'),
-            'modelsbd': OpenTicketModel.objects.all(),
+            'modelsbd': OpenTicketModel.objects.filter(nome__exact='TESTANDO'),
         }
         return render(request, 'UserSession.html', context)
     else:

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 import tickets
-from .views import ticket, UserSession, baseView, ticketPage, RegistroTicket
+from .views import ticket, UserSession, baseView, ticketPage
 
 urlpatterns = [
     path('', baseView, name='index'),

@@ -26,3 +26,6 @@ class historiesForTicketsForm(ModelForm):
         fields = [
             'dstkHistories'
         ]
+
+class PesquisaTicket(forms.Form):
+    ticketNum = forms.CharField(label='Ticket', max_length=10)

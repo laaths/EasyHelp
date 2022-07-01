@@ -9,6 +9,9 @@
     <br>
     <br>
     <div class="container">
+        <p class="fs-2 fw-bolt">
+            Tickets Aguardando Atendimento
+        </p>
         <div class="row row-cols-5">
             <div class="col-1 fs-5 fw-bolder">ID</div>
             <div class="col fs-5 fw-bolder">Solicitante</div>
@@ -28,14 +31,41 @@
                 {{ tickets.createDate.date.day }}/{{ tickets.createDate.date.month }}/{{ tickets.createDate.date.year }}
             </div>
             <div class="col-3">
-                {% if ticket.status != 1 %}
-                    Aguardando Atendimento
-                {% else %}
-                    Encerrado
-                {% endif %}
+                Aguardando Atendimento
             </div>
             <div class="col col-lg-4">
                 {{ tickets.dsticket }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="container">
+        <p class="fs-2 fw-bolt">
+            Tickets Encerrados
+        </p>
+        <div class="row row-cols-5">
+            <div class="col-1 fs-5 fw-bolder">ID</div>
+            <div class="col fs-5 fw-bolder">Solicitante</div>
+            <div class="col-1 fs-5 fw-bolder" >Abertura</div>
+            <div class="col-3 fs-5 fw-bolder">Situação</div>
+            <div class="col fs-5 fw-bolder">Descrição</div>
+        </div>
+        {% for tickets_en in tickets_list_en %}
+        <div class="row row-cols-5">
+            <div class="col-1">
+                <a href="{% url 'ticket' tickets_en.id_ticket %}">{{ tickets_en.id_ticket }}</a>
+            </div>
+            <div class="col">
+                {{ tickets_en.nome }}
+            </div>
+            <div class="col-1 d-flex justify-content-center">
+                {{ tickets_en.createDate.date.day }}/{{ tickets_en.createDate.date.month }}/{{ tickets_en.createDate.date.year }}
+            </div>
+            <div class="col-3">
+                    Encerrado
+            </div>
+            <div class="col col-lg-4">
+                {{ tickets_en.dsticket }}
             </div>
         </div>
         {% endfor %}
