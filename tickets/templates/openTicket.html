@@ -11,10 +11,28 @@
     <div class="container" id="form-ticket">
         {% bootstrap_messages %}
         <h1>Abertura de Chamado</h1>
+        <h3>{{ user.first_name }}</h3>
         <form action="{% url 'tickets' %}" method="post" class="form-control" autocomplete="off" enctype="multipart/form-data">
             {% csrf_token %}
             {% bootstrap_form form %}
             <button type="submit" class="btn btn-primary">Cadastrar</button>
+            <button type="button" id="botao" class="btn btn-secondary">TESTE</button>
         </form>
     </div>
+    {% block script %}
+        <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var nome = "{{ user.first_name }} {{ user.last_name }}";
+                var email = "{{ user.email }}";
+
+                $(function () {
+                        $('#id_nome').val(nome);
+                        $('#id_email').val(email);
+                    }
+                )
+            }
+            )
+        </script>
+    {% endblock %}
 {% endblock %}

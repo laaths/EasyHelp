@@ -12,10 +12,12 @@ from django.http import HttpResponseRedirect
 def baseView(request):
     if request.user.is_authenticated:
         tickets_list_ab = OpenTicketModel.objects.filter(status=0)
+        tickets_list_ea = OpenTicketModel.objects.filter(status=2)
         tickets_list_en = OpenTicketModel.objects.filter(status=1)
         context_index = {
             'tickets_list': tickets_list_ab,
             'tickets_list_en': tickets_list_en,
+            'tickets_list_ea': tickets_list_ea,
         }
         return render(request, 'index.html', context_index)
     else:
@@ -44,6 +46,7 @@ def ticket(request):
             request, 'openTicket.html',
             {
                 'form': form,
+                'user': request.user,
             }
         )
     else:
@@ -55,6 +58,17 @@ def ticketPage(request, id_ticket):
         tableRelac = historiesForTickets.objects.all()
         tableRelac.create(idTicket=id_ticket, idUser=request.user.id, dstkHistories=request.POST['dstkHistories'])
         print(request.POST)
+
+    def iniciarAtendimento():
+        try:
+            ticket = OpenTicketModel.objects.get(id_ticket=id_ticket)
+            if request.POST:
+                ticket.status = '2'
+                ticket.save()
+            else:
+                pass
+        except KeyError:
+            pass
 
     def encerrarTicket():
         try:
@@ -78,7 +92,9 @@ def ticketPage(request, id_ticket):
                 form = historiesForTicketsForm()
                 return redirect('index')
             else:
-                form = historiesForTicketsForm()
+                print("TESTE")
+                iniciarAtendimento()
+                #form = historiesForTicketsForm()
         else:
             form = historiesForTicketsForm()
         tablehistor = historiesForTickets.objects.filter(idTicket=id_ticket)
@@ -94,10 +110,9 @@ def ticketPage(request, id_ticket):
         messages.error(request, 'Efetuar Login Para Continuar!')
         return redirect('auth')
 
-def searchTicket(id_ticket):
+def buscarTicket(id_ticket):
     tablehistor = historiesForTickets.objects.filter(idTicket=id_ticket)
     return redirect('ticket', id_ticket)
-
 
 def UserSession(request):
     if request.user.is_authenticated:

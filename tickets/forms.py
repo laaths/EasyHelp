@@ -1,12 +1,13 @@
 from django.forms import ModelForm
 from django import forms
 from django.core.mail.message import EmailMessage
+
 from .models import OpenTicketModel, historiesForTickets
 from datetime import datetime
 
 class OpenTicketForm(ModelForm):
-    nome = forms.CharField(label='Nome do Solicitante', max_length=50, min_length=8, initial='LEONARDO TESTE')
-    email = forms.EmailField(label='E-mail', max_length=100, initial='teste@teste.com')
+    nome = forms.CharField(label='Nome do Solicitante', max_length=50, min_length=8)
+    email = forms.EmailField(label='E-mail', max_length=100)
     setor = forms.CharField(label='Setor', max_length=50, initial='Setor Teste')
     tel_ramal = forms.CharField(label='Celular / Ramal', max_length=50, min_length=9, initial='51 992878332')
     titulo = forms.CharField(label='Titulo - Problema', max_length=100, min_length=10, initial='Titulo teste')

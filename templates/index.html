@@ -41,6 +41,37 @@
     </div>
     <div class="container">
         <p class="fs-2 fw-bolt">
+            Tickets Em Atendimento
+        </p>
+        <div class="row row-cols-5">
+            <div class="col-1 fs-5 fw-bolder">ID</div>
+            <div class="col fs-5 fw-bolder">Solicitante</div>
+            <div class="col-1 fs-5 fw-bolder" >Abertura</div>
+            <div class="col-3 fs-5 fw-bolder">Situação</div>
+            <div class="col fs-5 fw-bolder">Descrição</div>
+        </div>
+        {% for tickets_ea in tickets_list_ea %}
+        <div class="row row-cols-5">
+            <div class="col-1">
+                <a href="{% url 'ticket' tickets_ea.id_ticket %}">{{ tickets_ea.id_ticket }}</a>
+            </div>
+            <div class="col">
+                {{ tickets_ea.nome }}
+            </div>
+            <div class="col-1 d-flex justify-content-center">
+                {{ tickets_ea.createDate.date.day }}/{{ tickets_ea.createDate.date.month }}/{{ tickets_ea.createDate.date.year }}
+            </div>
+            <div class="col-3">
+                    Em Atendimento
+            </div>
+            <div class="col col-lg-4">
+                {{ tickets_ea.dsticket }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="container">
+        <p class="fs-2 fw-bolt">
             Tickets Encerrados
         </p>
         <div class="row row-cols-5">
