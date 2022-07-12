@@ -35,8 +35,9 @@ def ticket(request):
             if form.is_valid():
                 form.save()
                 form = OpenTicketForm()
-                tkopen = OpenTicketModel.objects.last()
-                TabelaRelacionalTicketsForUsers(tkopen)
+                tkopen = OpenTicketModel.objects.all()
+                print(tkopen.last())
+                TabelaRelacionalTicketsForUsers(tkopen.last())
             else:
                 messages.success(request, 'Erro na Abertura do Chamado!')
         else:
