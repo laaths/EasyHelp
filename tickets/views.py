@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .forms import OpenTicketForm, historiesForTicketsForm, PesquisaTicket
-from .models import OpenTicketModel, ticketsForUsers, historiesForTickets
+from .models import OpenTicketModel, ticketsForUsersRun, historiesForTickets
 from registration.views import loginUsers
 from django.views.generic import TemplateView
 from django.contrib import messages
@@ -25,19 +25,18 @@ def baseView(request):
         return redirect('auth')
 
 def ticket(request):
-    def TabelaRelacional():
-        tableRelac = ticketsForUsers.objects.all()
-        tableticket = OpenTicketModel.objects.last()
-        #tableRelac.create(idGroup=0, idUser=request.user.id, idTicket=tableticket)
+    def TabelaRelacionalTicketsForUsers(id_ticket):
+        tkrun = ticketsForUsersRun.objects.all()
+        tkrun.create(idGroup=0, idUser=request.user.id, idTicket=id_ticket)
 
     if request.user.is_authenticated:
         if request.POST:
             form = OpenTicketForm(request.POST)
             if form.is_valid():
                 form.save()
-                messages.success(request, 'Deus Abençoe!')
-                #TabelaRelacional()
                 form = OpenTicketForm()
+                tkopen = OpenTicketModel.objects.last()
+                TabelaRelacionalTicketsForUsers(tkopen)
             else:
                 messages.success(request, 'Erro na Abertura do Chamado!')
         else:
@@ -54,9 +53,12 @@ def ticket(request):
         return redirect('auth')
 
 def ticketPage(request, id_ticket):
-    def TabelaRelacional():
-        tableRelac = historiesForTickets.objects.all()
-        tableRelac.create(idTicket=id_ticket, idUser=request.user.id, dstkHistories=request.POST['dstkHistories'])
+    def TabelaRelacionalTicketsForUsers():
+        tableRelac = ticketsForUsersRun.objects.all()
+        tableRelac.create(idGroup=0, idUser=request.user.id, idTicket=id_ticket)
+
+    def TabelaRelacional(obj_all, dstkHistories):
+        obj_all.create(idTicket=id_ticket, idUser=request.user.id, dstkHistories=dstkHistories)
         print(request.POST)
 
     def iniciarAtendimento():
@@ -64,6 +66,8 @@ def ticketPage(request, id_ticket):
             ticket = OpenTicketModel.objects.get(id_ticket=id_ticket)
             if request.POST:
                 ticket.status = '2'
+                tableRelac = historiesForTickets.objects.all()
+                TabelaRelacional(tableRelac, "Atendimento Inciado")
                 ticket.save()
             else:
                 pass
@@ -73,9 +77,22 @@ def ticketPage(request, id_ticket):
     def encerrarTicket():
         try:
             ticket = OpenTicketModel.objects.get(id_ticket=id_ticket)
-            if request.POST['encerrar']:
+            if request.POST['encerrar'] == "":
                 ticket.status = '1'
                 ticket.closeDate = timezone.now()
+                ticket.save()
+            else:
+                pass
+        except KeyError:
+            print('teste')
+
+    def reabrirTicket():
+        try:
+            ticket = OpenTicketModel.objects.get(id_ticket=id_ticket)
+            if request.GET:
+                ticket.status = '2'
+                tableRelac = historiesForTickets.objects.all()
+                TabelaRelacional(tableRelac, 'Ticket Reaberto')
                 ticket.save()
             else:
                 pass
@@ -86,15 +103,17 @@ def ticketPage(request, id_ticket):
         if request.POST:
             form = historiesForTicketsForm(request.POST)
             if form.is_valid():
-                messages.success(request, 'Deus Abençoe!')
-                TabelaRelacional()
+                tableRelac = historiesForTickets.objects.all()
+                TabelaRelacional(tableRelac, request.POST['dstkHistories'])
                 encerrarTicket()
                 form = historiesForTicketsForm()
                 return redirect('index')
             else:
-                print("TESTE")
                 iniciarAtendimento()
                 #form = historiesForTicketsForm()
+        elif request.GET:
+            reabrirTicket()
+            form = historiesForTicketsForm()
         else:
             form = historiesForTicketsForm()
         tablehistor = historiesForTickets.objects.filter(idTicket=id_ticket)

@@ -18,7 +18,7 @@ class OpenTicketModel(models.Model):
     def __str__(self):
         return str(self.id_ticket)
 
-class ticketsForUsers(models.Model):
+class ticketsForUsersRun(models.Model):
     idTicket = models.IntegerField('idticket', unique=True)
     idUser = models.IntegerField('iduser')
     idGroup = models.IntegerField('idgroup')
@@ -37,3 +37,7 @@ class historiesForTickets(models.Model):
 
 class TeamsForTicketsusers(models.Model):
     TeamName = models.CharField('nome', max_length=50)
+    
+class TicketForUsersOpen(models.Model):
+    idTicket = models.IntegerField('idticket')
+    idUser = models.IntegerField('iduserresponsavel', default=False)

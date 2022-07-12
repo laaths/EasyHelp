@@ -83,6 +83,7 @@
                 {% csrf_token %}
                 {% bootstrap_form form %}
                 <button type="submit" class="btn btn-primary">Registar</button>
+                <button type="submit" name="encerrar" class="btn btn-secondary">Encerrar</button>
             </form>
         {% elif ticketObj.status == 0 %}
             <form action="{% url 'ticket' ticketObj.id_ticket %}" method="post" class="form-control" autocomplete="off" enctype="multipart/form-data">
@@ -90,7 +91,10 @@
                 <button type="submit" class="btn btn-primary" id="iniciaratendimento">Iniciar Atendimento</button>
             </form>
         {% else %}
-            TESTE
+            <form action="{% url 'ticket' ticketObj.id_ticket %}" method="get" class="form-control" autocomplete="off" enctype="multipart/form-data">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary" id="reabrirticket">Reabrir Ticket</button>
+            </form>
         {% endif %}
     </div>
     <div class="container">
@@ -130,6 +134,9 @@
             $(document).ready(function () {
                     var nome = "{{ user.first_name }} {{ user.last_name }}";
                     var email = "{{ user.email }}";
+                    $((document).onclick(function ()) {
+
+                    })
                 }
             )
         </script>

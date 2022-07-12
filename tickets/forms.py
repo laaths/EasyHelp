@@ -20,7 +20,7 @@ class OpenTicketForm(ModelForm):
 
 class historiesForTicketsForm(ModelForm):
     dstkHistories = forms.CharField(label='Descrição', required=True, max_length=1500, widget=forms.Textarea)
-    encerrar = forms.CharField(label='Encerrar', required=False, widget=forms.CheckboxInput)
+    #encerrar = forms.CharField(label='Encerrar', widget=forms,required=False)
 
     class Meta:
         model = historiesForTickets

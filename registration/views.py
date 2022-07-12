@@ -51,7 +51,6 @@ def cadastroUsuarios(request):
                         email=formData['email'],
                     )
                     newuser.save()
-                    messages.success(request, 'Deus Abençoe!')
                 else:
                     messages.warning(request, 'Password Incorreto')
                 form = CadastroUsuarios()
