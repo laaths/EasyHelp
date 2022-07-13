@@ -15,9 +15,6 @@ class OpenTicketModel(models.Model):
     status = models.FloatField(default=False)
     closeDate = models.DateTimeField('closeDate', default=timezone.now)
 
-    def __str__(self):
-        return str(self.id_ticket)
-
 class ticketsForUsersRun(models.Model):
     idTicket = models.IntegerField('idticket', unique=True)
     idUser = models.IntegerField('iduser')

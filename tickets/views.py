@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .forms import OpenTicketForm, historiesForTicketsForm, PesquisaTicket
-from .models import OpenTicketModel, ticketsForUsersRun, historiesForTickets
+from .models import OpenTicketModel, ticketsForUsersRun, historiesForTickets, TicketForUsersOpen
 from registration.views import loginUsers
 from django.views.generic import TemplateView
 from django.contrib import messages
@@ -26,8 +26,8 @@ def baseView(request):
 
 def ticket(request):
     def TabelaRelacionalTicketsForUsers(id_ticket):
-        tkrun = ticketsForUsersRun.objects.all()
-        tkrun.create(idGroup=0, idUser=request.user.id, idTicket=id_ticket)
+        tkrun = TicketForUsersOpen.objects.all()
+        tkrun.create(idTicket=id_ticket, idUser=request.user.id)
 
     if request.user.is_authenticated:
         if request.POST:
@@ -35,9 +35,9 @@ def ticket(request):
             if form.is_valid():
                 form.save()
                 form = OpenTicketForm()
-                tkopen = OpenTicketModel.objects.all()
-                print(tkopen.last())
-                TabelaRelacionalTicketsForUsers(tkopen.last())
+                tkopen = OpenTicketModel.objects.last().id_ticket
+                TabelaRelacionalTicketsForUsers(tkopen)
+                return redirect('index')
             else:
                 messages.success(request, 'Erro na Abertura do Chamado!')
         else:
@@ -144,10 +144,12 @@ def UserSession(request):
             pass
         context = {
             'request': request,
+            'userID': request.user.id,
             'user': User.objects.get(username=request.user),
             'permissions': permissions,
             'groupsperm': User.objects.get(username=request.user).groups.values_list('name'),
-            'modelsbd': OpenTicketModel.objects.filter(nome__exact='TESTANDO'),
+            'ticketsBD': OpenTicketModel.objects.all(),
+            'ticketsUsersBD': TicketForUsersOpen.objects.all(),
         }
         return render(request, 'UserSession.html', context)
     else:

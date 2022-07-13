@@ -1,3 +1,5 @@
+import warnings
+
 from django.shortcuts import render
 from django.contrib import messages
 from django.shortcuts import redirect
@@ -14,16 +16,18 @@ def authLogin(request):
                 username = formData['username']
                 password = formData['password']
                 userLogin = authenticate(username=username, password=password)
-                print(User.objects.get(username=username).is_active)
-                if User.objects.get(username=username).is_active == True and userLogin != None:
-                    login(request, userLogin)
-                    return redirect('index')
-                elif User.objects.get(username=username).is_active == False:
-                    messages.warning(request, 'Usuario Desativado! Contate o Administrador!')
-                elif userLogin != None:
-                    messages.warning(request, 'Preencha o Usuario ou Senha Corretamente!')
-                else:
-                    messages.warning(request, 'Erro de Login! Contate o Administrador!')
+                try:
+                    if User.objects.get(username=username).is_active == True and userLogin != None:
+                        login(request, userLogin)
+                        return redirect('index')
+                    elif User.objects.get(username=username).is_active == False:
+                        messages.warning(request, 'Usuario Desativado! Contate o Administrador!')
+                    elif userLogin != None:
+                        messages.warning(request, 'Preencha o Usuario ou Senha Corretamente!')
+                    else:
+                        messages.warning(request, 'Erro de Login! Contate o Administrador!')
+                except User.DoesNotExist:
+                    messages.warning(request, 'Nome de Usuario ou Senha incorretos!')
             else:
                 pass
         else:
@@ -60,7 +64,6 @@ def cadastroUsuarios(request):
             form = CadastroUsuarios()
         return render(request, 'cadastroUsuarios.html', {'form': form})
     else:
-        messages.error(request, 'Usuario não Autenticado!')
         return redirect('auth')
 
 def userPermiss(request):

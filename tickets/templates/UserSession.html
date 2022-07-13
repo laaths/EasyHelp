@@ -64,13 +64,29 @@
                 </h2>
                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                        {% for foo in modelsbd %}
-                            <div>Chamado: {{ foo.id }}</div>
-                            <div>{{ foo.nome }}</div>
-                            <div>{{ foo.setor }}</div>
-                            <div>{{ foo.titulo }}</div>
-                            <div>{{ foo.createDate }}</div>
-                            <br>
+                        {% for ticket in ticketsUsersBD %}
+                            {% if user.id == ticket.idUser %}
+                                {% for foo in ticketsBD %}
+                                    {% if foo.id_ticket == ticket.idTicket %}
+                                        <div>Chamado: <a href="{% url 'ticket' foo.id_ticket %}">{{ foo.id_ticket }}</a></div>
+                                        <div>Solicitante: {{ foo.nome }}</div>
+                                        <div>Setor: {{ foo.setor }}</div>
+                                        <div>Titulo: {{ foo.titulo }}</div>
+                                        <div>Abertura: {{ foo.createDate }}</div>
+                                        <div>Situação:
+                                        {% if foo.status == 0 %}
+                                            Aguardando Atendimento
+                                        {% elif foo.status == 2 %}
+                                            Em Atendimento
+                                        {% else %}
+                                            Encerrado
+                                        {% endif %}
+                                        </div>
+                                        <br>
+                                    {% else %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
                         {% endfor %}
         </div>
     </div>

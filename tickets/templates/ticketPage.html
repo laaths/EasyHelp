@@ -53,10 +53,12 @@
                 Situação:
             </div>
             <div class="col">
-                {% if ticketObj.status != 1 %}
-                Aguardando Atendimento
+                {% if ticketObj.status == 0 %}
+                    Aguardando Atendimento
+                {% elif ticketObj.status == 2 %}
+                    Em Atendimento
                 {% else %}
-                Encerrado
+                    Encerrado
                 {% endif %}
             </div>
             <div class="col fs-6 fw-bolder">
