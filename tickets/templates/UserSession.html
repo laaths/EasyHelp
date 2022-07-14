@@ -68,6 +68,8 @@
                             {% if user.id == ticket.idUser %}
                                 {% for foo in ticketsBD %}
                                     {% if foo.id_ticket == ticket.idTicket %}
+                                    <div id="collapseTwoo">
+                                    <br>
                                         <div>Chamado: <a href="{% url 'ticket' foo.id_ticket %}">{{ foo.id_ticket }}</a></div>
                                         <div>Solicitante: {{ foo.nome }}</div>
                                         <div>Setor: {{ foo.setor }}</div>
@@ -76,6 +78,7 @@
                                         <div>Situação:
                                         {% if foo.status == 0 %}
                                             Aguardando Atendimento
+                                            <br>
                                         {% elif foo.status == 2 %}
                                             Em Atendimento
                                         {% else %}
