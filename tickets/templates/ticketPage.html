@@ -3,7 +3,9 @@
 {% load static %}
 
 {% block title %}Abertura de Ticket{% endblock %}
-{% block tickets %}active{% endblock %}
+{% block Tkicon %}
+<a href="#" class="nav_link active"> <i class='bx bx-message-square-detail nav_icon'></i> <span class="nav_name">Users</span> </a>
+{% endblock %}
 {% block content %}
     <br>
     <br>
@@ -84,8 +86,11 @@
             <form action="{% url 'ticket' ticketObj.id_ticket %}" method="post" class="form-control" autocomplete="off" enctype="multipart/form-data">
                 {% csrf_token %}
                 {% bootstrap_form form %}
-                <button type="submit" class="btn btn-primary">Registar</button>
-                <button type="submit" name="encerrar" class="btn btn-secondary">Encerrar</button>
+                    <button type="submit" class="btn btn-primary">Registar</button>
+                {% if 'Atendente' in Groups %}
+                    <button type="submit" name="encerrar" class="btn btn-secondary">Encerrar</button>
+                {% else %}
+                {% endif %}
             </form>
         {% elif ticketObj.status == 0 %}
             <form action="{% url 'ticket' ticketObj.id_ticket %}" method="post" class="form-control" autocomplete="off" enctype="multipart/form-data">
