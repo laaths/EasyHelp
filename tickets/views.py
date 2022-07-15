@@ -10,24 +10,24 @@ from django.utils import timezone
 from django.http import HttpResponseRedirect
 
 def baseView(request):
-    user = User.objects.get(id=request.user.id)
-    groups = str(User.objects.get(id=request.user.id).groups.all())
-    if 'Atendente' in groups or user.is_staff or user.is_superuser:
         if request.user.is_authenticated:
-            tickets_list_ab = OpenTicketModel.objects.filter(status=0)
-            tickets_list_ea = OpenTicketModel.objects.filter(status=2)
-            tickets_list_en = OpenTicketModel.objects.filter(status=1)
-            context_index = {
-                'tickets_list': tickets_list_ab,
-                'tickets_list_en': tickets_list_en,
-                'tickets_list_ea': tickets_list_ea,
-            }
-            return render(request, 'index.html', context_index)
+            user = User.objects.get(id=request.user.id)
+            groups = str(User.objects.get(id=request.user.id).groups.all())
+            if 'Atendente' in groups or user.is_staff or user.is_superuser:
+                tickets_list_ab = OpenTicketModel.objects.filter(status=0)
+                tickets_list_ea = OpenTicketModel.objects.filter(status=2)
+                tickets_list_en = OpenTicketModel.objects.filter(status=1)
+                context_index = {
+                    'tickets_list': tickets_list_ab,
+                    'tickets_list_en': tickets_list_en,
+                    'tickets_list_ea': tickets_list_ea,
+                }
+                return render(request, 'index.html', context_index)
+            else:
+                return redirect('user')
         else:
-            messages.error(request, 'Efetuar Login Para Continuar!')
+            messages.info(request, 'Faça Login Para Continuar!')
             return redirect('auth')
-    else:
-        return redirect('user')
 
 def ticket(request):
     def TabelaRelacionalTicketsForUsers(id_ticket):
@@ -129,7 +129,7 @@ def ticketPage(request, id_ticket):
             'form': form,
             'tablehistor': tablehistor,
             'tableuser': tableUser,
-            'Groups': str(User.objects.get(id=request.user.id).groups.all())
+            'Groups': str(User.objects.get(id=request.user.id).groups.all()),
         }
         return render(request, 'ticketPage.html', context)
     else:
