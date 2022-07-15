@@ -2,7 +2,7 @@ import warnings
 
 from django.shortcuts import render
 from django.contrib import messages
-from django.shortcuts import redirect
+from django.shortcuts import redirect, reverse
 from django.contrib.auth.models import User, Group, GroupManager
 from django.contrib.auth import logout, login, authenticate
 from .forms import loginUsers, CadastroUsuarios

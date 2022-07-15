@@ -77,7 +77,7 @@
             </div>
         </div>
     </div>
-    {% if ticketObj.status != 0 %}
+    {% if ticketObj.status != 0 or 'Atendente' in Groups%}
     <div class="container">
         <p class="fs-2 fw-bolt">
             Andamento
