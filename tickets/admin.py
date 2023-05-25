@@ -1,3 +1,6 @@
 from django.contrib import admin
+from tickets.models import OpenTicketModel
 
-# Register your models here.
+@admin.register(OpenTicketModel)
+class OpenTicketModelAdmin(admin.ModelAdmin):
+    list_display = ('id_ticket', 'nome', 'setor', 'titulo')

@@ -8,9 +8,8 @@
     <br>
     <br>
     <br>
-    {% bootstrap_messages %}
     <div class="container" id="form-ticket">
-
+        {% bootstrap_messages %}
         <h1>Cadastro de Usuarios</h1>
         <form action="{% url 'caduser' %}" method="post" class="form-control" autocomplete="on" enctype="multipart/form-data">
             {% csrf_token %}
