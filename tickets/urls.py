@@ -7,5 +7,5 @@ urlpatterns = [
     path('', baseView, name='index'),
     path('ticket', ticket, name='tickets'),
     path('user', UserSession, name='user'),
-    path('tickets/<int:id_ticket>', ticketPage, name='ticket'),
+    path('tickets/<int:id_ticket>', ticketPage, name='ticket')
 ]

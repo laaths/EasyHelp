@@ -30,6 +30,8 @@
                     <a href="{% url 'tickets' %}" class="nav_link {% block tickets %}{% endblock %}"> <i class='bx bx-layer-plus nav_icon'></i> <span class="nav_name">Dashboard</span> </a>
                     <a href="{% url 'user' %}" class="nav_link {% block user %}{% endblock %}"> <i class='bx bx-male nav_icon'></i> <span class="nav_name">Messages</span> </a>
                     <a href="{% url 'caduser' %}" class="nav_link {% block caduser %}{% endblock %}"> <i class='bx bx-fingerprint nav_icon'></i> <span class="nav_name">Bookmark</span> </a>
+                    <a href="" class="nav_link {% block Listusers %}{% endblock %}"> <i class='bx bx-list-ul nav_icon'></i> <span class="nav_name">Bookmark</span> </a>
+                    <a href="{% url 'cadClientes' %}" class="nav_link {% block cadClient %}{% endblock %}"> <i class='bx bx-user-plus nav_icon'></i> <span class="nav_name">Bookmark</span> </a>
                 {% endblock %}
                 </div>
             </div>

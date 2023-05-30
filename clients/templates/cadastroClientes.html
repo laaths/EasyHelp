@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block title %}Cadastro de Clientes{% endblock %}
+{% block cadClientes %}active{% endblock %}
+{% block content %}
+    <br>
+    <br>
+    <br>
+    <div class="container" id="form-ticket">
+        {% bootstrap_messages %}
+        <h1>Cadastro de Clientes</h1>
+        <form action="{% url 'cadClientes' %}" method="post" class="form-control" autocomplete="on" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <button type="submit" class="btn btn-success">Cadastrar</button>
+            <button type="reset" class="btn btn-outline-primary">Limpar</button>
+        </form>
+    </div>
+{% endblock %}
