@@ -1,6 +1,9 @@
 .row {
     display: grid;
+}
 
+.bg-light{
+    background-color: #F7F6FB!important;
 }
 
 .row {
@@ -12,7 +15,6 @@
 #collapseTwoo {
     padding: 3px;
     border-top: 2.5px solid #001864;
-
 }
 
 #adjust {
@@ -22,7 +24,6 @@
 #ajust {
     padding-left: 140px;
 }
-
 
 
 :root{
